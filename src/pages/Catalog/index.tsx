@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductCard from './components/ProductCard';
 import './styles.scss';
 
 const Ctalog = () => (
@@ -7,7 +8,13 @@ const Ctalog = () => (
            Catálogo de produtos
        </h1>
        <div className="catalog-products">
-            <h1> text</h1>
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
        </div>
    </div>
 );
