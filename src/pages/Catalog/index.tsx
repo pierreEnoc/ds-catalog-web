@@ -15,6 +15,10 @@ const Ctalog = () => (
             <ProductCard />
             <ProductCard />
             <ProductCard />
+            <ProductCard />
+            <ProductCard />
+
+
        </div>
    </div>
 );
