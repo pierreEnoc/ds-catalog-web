@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { makeRequest } from '../../core/utils/request';
 import ProductCard from './components/ProductCard';
 import './styles.scss';
 
@@ -9,9 +10,14 @@ const Ctalog = () => {
     // quando a lista de produtos estiver dispinivel,
     //popular um estado no componente, e listar os produtos dinamicamente
     useEffect(() => {
-        //console.log('componente de listagem iniciado!');
-        fetch('http://localhost:3000/products');
-    }, []);
+        const params ={
+            page: 0,
+            linesPerPage: 12
+        }
+
+        makeRequest({ url: '/products', params })
+           .then(response => console.log(response));
+    }, [])
 
     return(
         <div className="catalog-container">
