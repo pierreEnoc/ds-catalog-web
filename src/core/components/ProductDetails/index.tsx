@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ReactComponent as ArrowIcon } from '../../../core/assets/images/arrow.svg';
-import { ReactComponent as ProductImage } from '../../../core/assets/images/product.svg';
+import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
 import ProductDescriptionLoader from '../../../pages/Catalog/components/Loaders/ProductDescriptionLoader';
 import ProductInfoLoader from '../../../pages/Catalog/components/Loaders/ProductInfoLoader';
 import { Product } from '../../types/Product';
