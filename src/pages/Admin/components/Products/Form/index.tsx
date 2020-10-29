@@ -1,3 +1,5 @@
+import { makeRequest } from 'core/utils/request';
+import { type } from 'os';
 import React, { useState } from 'react';
 import BaseForm from '../../BaseForm/index';
 
@@ -7,64 +9,87 @@ type FormState = {
     name: string;
     price: string;
     category: string;
+    description: string;
 }
 
-const Form = ()  => {
+type FormatEvent =  React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+
+const Form = () => {
 
     const [formData, setFormData] = useState<FormState>({
-        name:'Computador',
-        price:'',
-        category:''
-        
+        name: '',
+        price: '',
+        category: '1',
+        description: ''
+
     });
-    
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+
+    const handleOnChange = (event: FormatEvent) => {
         const name = event.target.name
         const value = event.target.value
 
-       setFormData(data => ({ ...data, [name]: value }))
+        setFormData(data => ({ ...data, [name]: value }))
     }
 
-     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formData);
-     }
+        const payload = {
+            ...formData,
+            imgUrl: 'https://multimedia.bbycastatic.ca/multimedia/products/500x500/149/14962/14962185.jpg',
+            categories: [{ id: formData.category }]
+        }
+        makeRequest({ url: '/products', method: 'POST', data: payload })
+            .then(() => {
+                setFormData({ name: '', category: '', price: '', description: '' });
+            });
+    }
 
-    return(
+    return (
         <form onSubmit={handleSubmit}>
-        <BaseForm title="cadastrar um produto">      
-          <div className="row">
-              <div className="col-6">
-                  <input 
-                  value={formData.name}
-                  name="name"
-                  type="text" 
-                  className="form-control mb-5" 
-                  onChange={handleOnChange}
-                  placeholder="Nome do produto"
-                />
-                <select 
-                    value={formData.category} 
-                    className="form-control mb-5" 
-                    onChange={handleOnChange}
-                    name="category"
-                >
-                    <option value="livros">Livros</option>
-                    <option value="computadores">Computadores</option>
-                    <option value="electrônicos">Electronicos</option>
-                    <option value="games">Games</option>
-                </select>
-                 <input 
-                  value={formData.price}
-                  name="price"
-                  type="text" 
-                  className="form-control" 
-                  onChange={handleOnChange}
-                  placeholder="Preço"
-                />
-              </div>
-          </div>
-        </BaseForm> 
+            <BaseForm title="cadastrar um produto">
+                <div className="row">
+                    <div className="col-6">
+                        <input
+                            value={formData.name}
+                            name="name"
+                            type="text"
+                            className="form-control mb-5"
+                            onChange={handleOnChange}
+                            placeholder="Nome do produto"
+                        />
+                        <select
+                            value={formData.category}
+                            className="form-control mb-5"
+                            onChange={handleOnChange}
+                            name="category"
+                        >
+                            <option value="1">Livros</option>
+                            <option value="3">Computadores</option>
+                            <option value="2">Electronicos</option>
+                            <option value="games">Games</option>
+                        </select>
+                        <input
+                            value={formData.price}
+                            name="price"
+                            type="text"
+                            className="form-control"
+                            onChange={handleOnChange}
+                            placeholder="Preço"
+                        />
+                    </div>
+                    <div className="col-6">
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleOnChange}
+                            className="form-control"
+                            cols={30}
+                            rows={10}
+                        />
+
+                    </div>
+                </div>
+            </BaseForm>
         </form>
     )
 }
