@@ -14,11 +14,9 @@ const Admin = () => (
                 </Route>
                 <Route path="/admin/categories">
                     <h1>Categories</h1>
-
                 </Route>
-                <Route path="/admin/contentt">
+                <Route path="/admin/users">
                     <h1>Users</h1>
-
                 </Route>
             </Switch>
        </div>
