@@ -1,3 +1,4 @@
+import { isAuthenticated } from 'core/utils/auth';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
@@ -6,13 +7,13 @@ type Props = {
     path: string;
 }
 const PrivateRoute = ({ children, path }: Props) => {
-   const isAutenticaded = false;
+   
 
     return (
       <Route
         path={path}
         render={({ location }) =>
-          isAutenticaded ? (
+          isAuthenticated() ? (
             children
           ) : (
             <Redirect
