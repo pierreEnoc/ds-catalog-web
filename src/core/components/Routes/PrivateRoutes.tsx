@@ -26,8 +26,8 @@ const PrivateRoute = ({ children, path, allowedRoutes }: Props) => {
                     )
                 } else if (isAuthenticated() && !isAllowedByRole(allowedRoutes)) {
                     return (
-                        <Redirect
-                            to={{ pathname: "/admin" }} />
+                        <Redirect 
+                            to={{ pathname: "/products" }} />
                     )
                 }
 
