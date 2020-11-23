@@ -15,15 +15,17 @@
 
 .main-menu{
     display: flex;
-    font-size: 18px;
+    
     justify-content: center;
 
     li:nth-child(2) {
         margin-right: 85px;
         margin-left: 85px;
     }
+}
 
-    a {
+    .nav-link {
+        font-size: 18px;
         font-style: normal;
         color: rgba(255, 255, 255, 0.5);
         &.active {
@@ -35,4 +37,3 @@
             color: #FFF;
         }
     }
-}
