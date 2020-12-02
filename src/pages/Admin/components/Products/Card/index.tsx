@@ -36,7 +36,7 @@ const Card = ({ product }: Props) => {
                 </div>
                 <div className="col-3 pt-3 pr-5">
                  <Link 
-                   to={`/products/${product.id}`}
+                   to={`/admin/products/${product.id}`}
                    type="button" 
                    className="btn btn-outline-secondary btn-block border-radius-10 mb-3 btn-edit "
                 >
