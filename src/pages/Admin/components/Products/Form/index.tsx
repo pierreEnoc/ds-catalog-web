@@ -1,6 +1,6 @@
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Control, Controller } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Select from 'react-select'
@@ -13,6 +13,7 @@ type FormState = {
     price: string;
     description: string;
     imgUrl: String;
+    categories: Category[];
 }
 
 type ParamsType = {
@@ -21,7 +22,7 @@ type ParamsType = {
 
 
 const Form = () => {
-    const { register, handleSubmit, errors, setValue } = useForm<FormState>();
+    const { register, handleSubmit, errors, setValue, control } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
     const [categories, SetCategories] = useState<Category[]>([]);
@@ -38,6 +39,7 @@ const Form = () => {
           setValue('price', response.data.price);
           setValue('description', response.data.description);
           setValue('imgUrl', response.data.imgUrl);
+          setValue('categories', response.data.categories)
 
         })
       }  
@@ -91,14 +93,24 @@ const Form = () => {
                             )}
                         </div>
                         <div className="margin-botton-30">
-                            <Select 
+                            < Controller
+                             as={ Select }
+                             name="categories"
+                             rules={{ required: true }}
+                             control={control}
+                             isLoading={isLoadingCategories}
                              options={categories}
                              getOptionLabel={(option: Category) => option.name}
                              getOptionValue={(option: Category) => String(option.id)}
                              classNamePrefix="categories-select" 
-                             placeholder="Categoria"
+                             placeholder="Categorias"
                              isMulti
                             />
+                            {errors.categories && (
+                                <div className="invalid-feedback d-block">
+                                   Campo obrigatório
+                                </div>
+                            )}
                         </div>
                         
                         <div className="margin-botton-30">
