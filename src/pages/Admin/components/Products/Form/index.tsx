@@ -1,11 +1,12 @@
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Select from 'react-select'
 import BaseForm from '../../BaseForm/index';
 import './styles.scss';
+import { Category } from 'core/types/Product';
 
 type FormState = {
     name: string;
@@ -18,16 +19,13 @@ type ParamsType = {
     productId: string;
 }
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
 
 const Form = () => {
     const { register, handleSubmit, errors, setValue } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
+    const [categories, SetCategories] = useState<Category[]>([]);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
     const isEditing = productId !== 'create';
     const formTitle = isEditing ? 'Editar produto' : 'cadastrar um produto';
 
@@ -44,6 +42,13 @@ const Form = () => {
         })
       }  
     }, [productId, isEditing, setValue]);
+
+    useEffect(() => {
+        setIsLoadingCategories(true);
+        makeRequest({ url: '/categories'})
+            .then(response => SetCategories(response.data.content))
+            .finally(() => setIsLoadingCategories(false))
+    }, []);
     
     const onSubmit = (data: FormState) => {
         makePrivateRequest({ 
@@ -87,7 +92,9 @@ const Form = () => {
                         </div>
                         <div className="margin-botton-30">
                             <Select 
-                             options={options}
+                             options={categories}
+                             getOptionLabel={(option: Category) => option.name}
+                             getOptionValue={(option: Category) => String(option.id)}
                              classNamePrefix="categories-select" 
                              placeholder="Categoria"
                              isMulti
